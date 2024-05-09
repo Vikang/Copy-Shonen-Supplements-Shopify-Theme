@@ -1,0 +1,80 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+
+<style>
+  {{ section.settings.heading_font | font_face }}
+  {{ section.settings.caption_font | font_face }}
+
+  :root {
+      --ss-font-heading-scale: 1.2;
+    }
+
+    .ss-heading {
+      padding: 5rem 0 0 0;
+    }
+
+  .ss-heading h1 {
+      font-family: {{ section.settings.heading_font.family }} !important;
+      font-weight: {{ section.settings.heading_font.weight }};
+      font-size: calc(var(--ss-font-heading-scale) * 5rem);
+      margin: 0 0 1rem 0;
+      text-transform: uppercase;
+      text-align: center;
+  }
+  .ss-heading p {
+      font-family: {{ section.settings.caption_font.family }} !important;
+      {% comment %} font-weight: {{ section.settings.caption_font.weight }}; {% endcomment %}
+      {% comment %} text-transform: uppercase; {% endcomment %}
+      text-align: center;
+      margin: 0 auto;
+      max-width: 610px;
+  }
+</style>
+
+<section class="ss-heading">
+  <div class="ss-narrow-section">
+    <h1>{{ section.settings.heading }}</h1>
+    <p>{{ section.settings.caption }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS Heading",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Talk about your brand",
+      "label": "Heading"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "itc_conduit_n9"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "default": "Add a tagline",
+      "label": "Caption"
+    },
+    {
+      "type": "font_picker",
+      "id": "caption_font",
+      "label": "Caption Font",
+      "default": "oswald_n7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Heading"
+    }
+  ]
+}
+{% endschema %}

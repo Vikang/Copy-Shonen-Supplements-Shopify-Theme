@@ -1,0 +1,178 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+
+<style>
+      {{ section.settings.heading_font | font_face }}
+      {{ section.settings.caption_font | font_face }}
+      :root {
+          --ss-font-heading-scale: 1.4; /* This is just an example value */
+        }
+  .flex-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .ss-narrow-section h1{
+        font-family: {{ section.settings.heading_font.family }} !important;
+        font-weight: {{ section.settings.heading_font.weight }};
+        font-size: calc(var(--ss-font-heading-scale) * 5rem);
+        margin: 0 0;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .ss-narrow-section p {
+        font-family: {{ section.settings.caption_font.family }} !important;
+        font-weight: {{ section.settings.caption_font.weight }};
+        font-size: 1.5rem;
+        margin: 0 0 2rem 0;
+        text-transform: uppercase;
+        width: 80%;
+      }
+      .buttons-404 {
+        display: flex;
+        justify-content: center;
+        gap: 1.4rem;
+        flex-wrap: wrap;
+      }
+      .button-404 {
+        padding: 1.2rem 7vw;
+        background: black;
+        color: white;
+        font-family: {{ section.settings.caption_font.family }} !important;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.5s;
+        border: 1px solid black;
+        height: fit-content;
+        display: block;
+        min-width: 20vw;
+    }
+    .button-404:hover {
+        background: #e7c188;
+        color: black;
+      text-decoration: none !important;
+      cursor: pointer;
+    }
+    .buttons-404 a {
+      text-decoration: none;
+    }
+    @media screen and (max-width: 990px) {
+      .buttons-404 {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+      }
+      .button-404 {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 45vw;
+      }
+    }
+    @media screen and (max-width: 750px) {
+      .buttons-404 {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+      }
+      .button-404 {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 80vw;}
+    }
+</style>
+
+<section class="ss-section">
+  <div class="ss-narrow-section flex-col">
+    <h1 class="title">
+      {{ section.settings.heading }}
+    </h1>
+    <p>{{ section.settings.paragraph }}</p>
+    <div class="buttons-404">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'button' -%}
+            <div
+              class="{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <a
+                {% if block.settings.button_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.button_link }}"
+                {% endif %}
+              >
+                <button class="button-404">
+                  {{ block.settings.button_label }}
+                </button>
+              </a>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS 404",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "404 Error Page",
+      "label": "Heading"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "itc_conduit_n9"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+      "label": "Paragraph"
+    },
+    {
+      "type": "font_picker",
+      "id": "caption_font",
+      "label": "Caption Font",
+      "default": "oswald_n4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "404 Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "SS 404"
+    }
+  ]
+}
+{% endschema %}

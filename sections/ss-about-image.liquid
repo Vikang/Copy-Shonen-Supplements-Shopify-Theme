@@ -1,0 +1,27 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+<section class="ss-section">
+  {{ section.settings.about_image | image_url: width: 1024 | image_tag: loading: 'lazy' }}
+</section>
+
+{% schema %}
+{
+  "name": "SS About Image",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "about_image",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS About Image"
+    }
+  ]
+}
+{% endschema %}

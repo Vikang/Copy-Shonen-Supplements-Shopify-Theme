@@ -1,0 +1,218 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+
+<style>
+  {{ section.settings.banner_heading_font | font_face }}
+  {{ section.settings.button_font | font_face }}
+  :root {
+    --ss-font-heading-scale: 1.2;
+  }
+  .grid-container {
+    display: flex;
+    justify-content: center;
+    {% comment %} column-gap: 20px; {% endcomment %}
+    max-width: 95vw;
+    overflow: hidden;
+  }
+  .grid-container img {
+    width: 100%;
+    height: 100%;
+    {% comment %} max-height: 90dvh; {% endcomment %}
+    object-fit: cover;
+    flex-wrap: wrap;
+  }
+  .banner-heading {
+    font-family: {{ section.settings.banner_heading_font.family }} !important;
+    font-weight: {{ section.settings.banner_heading_font.weight }};
+    font-size: calc(var(--ss-font-heading-scale) * 7rem);
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .banner-heading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .shop-now-button {
+    font-family: {{ section.settings.button_font.family }} !important;
+    font-weight: {{ section.settings.button_font.weight }};
+    font-size: 1.5rem;
+    padding: 1.5rem 6rem;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 2rem;
+  }
+  .shop-now-button:hover {
+    background-color: #E7C289;
+    color: black;
+  }
+  .desktop-banner {
+  flex-basis: 100%;
+  }
+  .desktop-banner img{
+    display: block;
+  }
+  .mobile-banner img{
+    display: none;
+  }
+  @media (max-width: 990px) {
+    .banner-heading {
+      font-size: calc(var(--ss-font-heading-scale) * 5rem);
+    }
+    .grid-container {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+    }
+    .grid-container img {
+      height: 100%;
+      width: 100%;
+      {% comment %} min-height: 80dvh; {% endcomment %}
+    }
+    .grid-container img:not(:first-child):not(.mobile-banner) {
+      display: none;
+    }
+    .desktop-banner img{
+      display: none;
+    }
+    .mobile-banner {
+      flex-basis: 100%;
+    }
+    .mobile-banner img{
+      margin-top: -20px;
+      display: block !important;
+    }
+  }
+</style>
+
+<section class="ss-section">
+  <div class="banner-heading-container">
+    <h1 class="banner-heading">{{ section.settings.heading_text }}</h1>
+    {% if section.settings.button_text != blank %}
+      <a href="{{ section.settings.button_link }}">
+        <button class="shop-now-button">{{ section.settings.button_text }}</button>
+      </a>
+    {% endif %}
+  </div>
+  <a
+    href="{{ section.settings.banner_link }}"
+  >
+    <div class="grid-container">
+      {%- for block in section.blocks -%}
+        {% case block.type %}
+          {%- when 'image' -%}
+            {% if block.settings.desktop_banner_image != blank %}
+              <div class="desktop-banner">
+                {{ block.settings.desktop_banner_image | image_url: width: 3840 | image_tag: loading: 'lazy' }}
+              </div>
+            {% else %}
+              <div class="desktop-banner" style="display: none;"></div>
+            {% endif %}
+            {% if block.settings.mobile_banner_image != blank %}
+              <div class="mobile-banner">
+                {{ block.settings.mobile_banner_image | image_url: width: 1024 | image_tag: loading: 'lazy' }}
+              </div>
+            {% else %}
+              <div class="mobile-banner" style="display: none;"></div>
+            {% endif %}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </a>
+</section>
+
+<script>
+  window.addEventListener('load', function () {
+    // Check if the screen width is less than or equal to 768px
+    if (window.innerWidth <= 768) {
+      // Get all images
+      var images = document.querySelectorAll('.grid-container img');
+
+      // Loop through all images except the first one
+      for (var i = 1; i < images.length; i++) {
+        // Hide the image
+        images[i].style.display = 'none';
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "SS Image Grid",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading_text",
+      "default": "Talk about your brand",
+      "label": "Heading"
+    },
+    {
+      "type": "font_picker",
+      "id": "banner_heading_font",
+      "label": "Heading Font",
+      "default": "itc_conduit_n9"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Shop Now",
+      "label": "Button Text"
+    },
+    {
+      "type": "font_picker",
+      "id": "button_font",
+      "label": "Button Font",
+      "default": "oswald_n7"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "Banner Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image Banner",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_banner_image",
+          "label": "Desktop Banner Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_banner_image",
+          "label": "Mobile Banner Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Banner Image Grid",
+      "blocks": [
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

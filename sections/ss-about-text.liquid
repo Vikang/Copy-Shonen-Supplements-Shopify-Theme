@@ -1,0 +1,163 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+<style>
+  {{ section.settings.heading_font | font_face }}
+  {{ section.settings.caption_font | font_face }}
+  :root {
+    --ss-font-heading-scale: 1.4; /* This is just an example value */
+  }
+  .white-background {
+    background-color: white;
+  }
+  .ss-narrow-section h1{
+    font-family: {{ section.settings.heading_font.family }} !important;
+    font-weight: {{ section.settings.heading_font.weight }};
+    font-size: calc(var(--ss-font-heading-scale) * 5rem);
+    margin: 0 0;
+    text-transform: uppercase;
+  }
+  .ss-narrow-section span{
+    font-family: {{ section.settings.caption_font.family }} !important;
+    font-weight: {{ section.settings.caption_font.weight }};
+    text-transform: uppercase;
+    color: #FF3708;
+  }
+
+  .about-image {
+    animation-delay: 0.3s !important;
+    display: flex;
+  }
+
+  .ss-heading-section {
+    padding-bottom: 5rem;
+  }
+  .ss-story-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    {% comment %} gap: 2rem; {% endcomment %}
+  }
+  .ss-story-section img{
+    width: 100%;
+    height: 100%;
+  }
+  .ss-story-section p {
+    font-family: {{ section.settings.caption_font.family }} !important;
+    font-weight: {{ section.settings.caption_font.weight }};
+    padding-bottom: 5rem;
+  }
+  @media screen and (max-width: 750px) {
+    .ss-narrow-section h1 {
+      font-size: calc(var(--ss-font-heading-scale) * 4rem);
+    }
+  }
+  @keyframes slideInImage {
+    from {
+      transform: translateY(2rem);
+      opacity: 0.01;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+</style>
+
+<section class="white-background">
+  <div class="ss-section ">
+    <div class="ss-narrow-section">
+      <div class="ss-heading-section">
+        <h1>{{ section.settings.heading }}</h1>
+        <span>{{ section.settings.caption }}</span>
+      </div>
+      <div class="ss-story-section">
+        {%- for block in section.blocks -%}
+          {% case block.type %}
+            {%- when 'image_picker' -%}
+              <div
+                class="about-image scroll-trigger animate--slide-in"
+              >
+                {{ block.settings.about_image | image_url: width: 1024 | image_tag: loading: 'lazy' }}
+              </div>
+            {%- when 'text' -%}
+              <p>{{ block.settings.text }}</p>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS About Webtoon",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Talk about your brand",
+      "label": "Heading"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "itc_conduit_n9"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "default": "Add a tagline",
+      "label": "Caption"
+    },
+    {
+      "type": "font_picker",
+      "id": "caption_font",
+      "label": "Caption Font",
+      "default": "oswald_n7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "About Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "about_image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "About Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+          "label": "About Paragraph"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS About Webtoon",
+      "blocks": [
+        {
+          "type": "image_picker"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

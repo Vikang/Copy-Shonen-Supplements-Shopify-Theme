@@ -1,0 +1,75 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .contact-heading {
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 1rem 0;
+    font-size: 16px;
+    font-family: 'Oswald', sans-serif;
+  }
+  .contact-info p {
+    font-size: 16px;
+    text-align: center;
+    line-height: 22px !important;
+    font-family: 'Oswald', sans-serif;
+  }
+  .contact-info a {
+    color: black;
+    text-decoration: underline;
+  }
+  .contact-wrapper {
+    margin-bottom: 3rem;
+  }
+</style>
+<section class="ss-heading">
+  <div class="ss-narrow-section">
+    {%- for block in section.blocks -%}
+      {% case block.type %}
+        {%- when 'text' -%}
+          <div class="contact-wrapper">
+            <h3 class="contact-heading">{{ block.settings.contact_details_heading }}</h3>
+            <div class="contact-info">{{ block.settings.contact_details_info }}</div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS Contact Info",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Contact Details",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "contact_details_heading",
+          "default": "Contact:",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "contact_details_info",
+          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+          "label": "About Paragraph"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Contact Info"
+    }
+  ]
+}
+{% endschema %}

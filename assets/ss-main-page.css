@@ -1,0 +1,26 @@
+.ss-section {
+  height: fit-content;
+  width: 95vw;
+  margin: 0 auto;
+  padding: 4vw 0;
+}
+
+.ss-narrow-section {
+  width: 50vw;
+  margin: 0 auto;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.ss-footer-section {
+  height: fit-content;
+  width: 95vw;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+@media screen and (max-width: 750px) {
+  .ss-narrow-section {
+    width: 95vw;
+  }
+}

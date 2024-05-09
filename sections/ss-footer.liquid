@@ -1,0 +1,159 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ss-footer.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'ss-newsletter-popup.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  .background-black {
+    background-color: #000;
+    color: #fff;
+  }
+  .separator {
+    border: none;
+    border-top: 1px solid #1c1c1c; /* Change the color as needed */
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .footer-list {
+    list-style: none;
+    margin: 0 0;
+    padding: 0 0;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    column-gap: 2rem;
+    font-size: 14px;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  .footer-grid-item:last-child .footer-list li {
+    font-size: 10px;
+  }
+  .footer-list li {
+    transition: color 0.3s ease;
+  }
+  .footer-list li a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-list li:not(.copyright):hover {
+    color: #e7c289;
+    cursor: pointer;
+  }
+  .footer-list li a:hover {
+    color: #e7c289;
+  }
+  .footer-list svg {
+    transform: scale(1.5);
+    margin: 0 0.5rem !important;
+  }
+  .footer-list svg:not(.discord-svg) {
+    height: 15px;
+    width: 15px;
+    color: #ffffff;
+  }
+  .footer-list .discord-svg {
+    height: 25px;
+    width: 25px;
+    color: #ffffff;
+  }
+  .footer-list svg:hover {
+    color: #e7c289;
+  }
+  @media screen and (min-width: 990px) {
+    .separator {
+      display: none;
+    }
+    .footer-grid-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    .center-grid {
+      position: absolute;
+      {% comment %} top: 50%; {% endcomment %}
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>
+
+<footer class="background-black center-items">
+  <div class="ss-footer-section">
+    <div class=" footer-grid-container">
+      <div class="footer-grid-item">
+        <ul class="footer-list">
+          <li class="klaviyo_form_trigger">Newsletter</li>
+          <script type="text/javascript">
+            document.querySelector('.klaviyo_form_trigger').addEventListener('click', function () {
+              window._klOnsite = window._klOnsite || [];
+              window._klOnsite.push(['openForm', 'YacqKW']);
+            });
+          </script>
+          {% comment %} <li class="newsletter-link">Newsletter</li> {% endcomment %}
+          <li><a href="https://shonensupplements.com/pages/contact">Contact</a></li>
+          <li><a href="https://shonensupplements.com/pages/shipping-and-returns">Shipping & Returns</a></li>
+        </ul>
+      </div>
+      <hr class="separator">
+      <div class="footer-grid-item center-grid icons">
+        <ul class="footer-list">
+          <li class="instagram">
+            <a href="https://www.instagram.com/Shonensupplements/" target="_blank">Instagram</a>
+          </li>
+          <li class="facebook">
+            <a href="https://www.facebook.com/people/Shonen-Supplements/61554248127730/" target="_blank">Facebook</a>
+          </li>
+          <li class="discord">
+            <a
+              href="https://discord.com/invite/gUQNRHxJMT"
+              target="_blank"
+              >Discord</a
+            >
+          </li>
+          <li class="tiktok"><a href="https://www.tiktok.com/@shonensupplements" target="_blank">Tiktok</a></li>
+        </ul>
+      </div>
+      <hr class="separator">
+      <div class="footer-grid-item">
+        <ul class="footer-list">
+          <li><a href="https://shonensupplements.com/pages/legal-information">Legal Information</a></li>
+          {% comment %} <li>Privacy Policy</li> {% endcomment %}
+          {% comment %} <li>Terms & Conditions</li> {% endcomment %}
+          <li class="copyright">© 2024 shonensupplements</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var newsletterLink = document.getElementById('newsletter-link');
+  var popup = document.getElementById('newsletter-popup');
+  var closePopup = document.getElementById('close-popup');
+
+  newsletterLink.addEventListener('click', function () {
+    popup.style.display = 'block';
+  });
+
+  closePopup.addEventListener('click', function () {
+    popup.style.display = 'none';
+  });
+</script>
+
+{% schema %}
+{
+  "name": "SS Footer",
+  "class": "section-footer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "SS Footer"
+    }
+  ]
+}
+{% endschema %}
