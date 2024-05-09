@@ -1132,15 +1132,24 @@ class VariantSelects extends HTMLElement {
         .forEach((img) => (img.style.display = "none"));
       const currentImgAlt = this.currentVariant.featured_image.alt;
       const thumbnailSelector = `[thumbnail-alt = "${currentImgAlt}"]`;
-      document
-        .querySelectorAll(thumbnailSelector)
-        .forEach((img) => (img.style.display = "block"));
+      // document
+      //   .querySelectorAll(thumbnailSelector)
+      //   .forEach((img) => (img.style.display = "block"));
 
-        const productTitle = document.querySelector(".product__title h1").innerText;
-        const selectUndetermined = `[thumbnail-alt = "${productTitle}"]`;
-        console.log(selectUndetermined);
-        document
-        .querySelectorAll(selectUndetermined)
+      let productTitle = document.querySelector(".product__title h1").innerText;
+      productTitle = productTitle
+        .toLowerCase()
+        .replace(/(?:^|\s|-)\S/g, function (a) {
+          return a.toUpperCase();
+        });
+      const selectUndetermined = `[thumbnail-alt = "${productTitle}"]`;
+      console.log(productTitle);
+      // console.log(selectUndetermined);
+      // document
+      // .querySelectorAll(selectUndetermined)
+      // .forEach((img) => (img.style.display = "block"));
+      document
+        .querySelectorAll(`${thumbnailSelector}, ${selectUndetermined}`)
         .forEach((img) => (img.style.display = "block"));
     } else {
       //show all variant
