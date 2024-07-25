@@ -1,4 +1,5 @@
 {{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+{{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'video-player.js' | asset_url }}" defer="defer"></script>
 
@@ -14,11 +15,10 @@
       justify-content: space-between;
       align-items: flex-start;
     }
-    .brigade-title {
+    .brigade-title{
         font-family: {{ section.settings.heading_font.family }} !important;
         font-weight: {{ section.settings.heading_font.weight }};
       font-size: 5rem;
-      font-weight: 700;
       text-transform: uppercase;
       width: 45rem;
       margin: 0px 0px;
@@ -28,7 +28,6 @@
     font-family: {{ section.settings.social_font.family }} !important;
     font-weight: {{ section.settings.social_font.weight }};
       font-size: 2rem;
-      font-weight: 700;
       text-transform: uppercase;
     }
     .brigade-button {
@@ -70,6 +69,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     position: relative;
+    margin-top: 2rem;
     }
 
     .brigade-image-collage {
@@ -155,7 +155,6 @@
           text-align: center;
       }
       .brigade-collage {
-        margin-top: 2rem;
         grid-template-columns: repeat(2, 1fr);
     }
     .brigade-collage > :nth-of-type(3),
