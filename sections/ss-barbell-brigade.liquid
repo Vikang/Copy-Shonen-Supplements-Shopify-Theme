@@ -3,6 +3,9 @@
 <script src="{{ 'video-player.js' | asset_url }}" defer="defer"></script>
 
 <style>
+    {{ section.settings.heading_font | font_face }}
+    {{ section.settings.social_font | font_face }}
+
     .display-none {
         display: none;
       }
@@ -12,6 +15,8 @@
       align-items: flex-start;
     }
     .brigade-title {
+        font-family: {{ section.settings.heading_font.family }} !important;
+        font-weight: {{ section.settings.heading_font.weight }};
       font-size: 5rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -20,6 +25,8 @@
       margin-bottom: 2rem;
     }
     .brigade-socials-title {
+    font-family: {{ section.settings.social_font.family }} !important;
+    font-weight: {{ section.settings.social_font.weight }};
       font-size: 2rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -263,10 +270,22 @@
       "label": "Heading"
     },
     {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "itc_conduit_n9"
+    },
+    {
       "type": "inline_richtext",
       "id": "social_heading",
       "default": "Stay in the loop:",
       "label": "Social Heading"
+    },
+    {
+      "type": "font_picker",
+      "id": "social_font",
+      "label": "Social Heading Font",
+      "default": "itc_conduit_n9"
     },
     {
       "type": "richtext",
