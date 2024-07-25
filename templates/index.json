@@ -1,3 +1,12 @@
+/*
+* ------------------------------------------------------------
+* IMPORTANT: The contents of this file are auto-generated.
+*
+* This file may be updated by the Shopify admin theme editor
+* or related systems. Please exercise caution as any changes
+* made to this file may be overwritten.
+* ------------------------------------------------------------
+*/
 {
   "sections": {
     "slideshow_WBhzfD": {
@@ -111,10 +120,73 @@
         "padding_top": 32,
         "padding_bottom": 32
       }
+    },
+    "ss_barbell_brigade_dabRrc": {
+      "type": "ss-barbell-brigade",
+      "blocks": {
+        "button_WqPKnm": {
+          "type": "button",
+          "settings": {
+            "social_button_label": "Button label",
+            "social_button_link": "https:\/\/www.instagram.com\/Shonensupplements\/",
+            "social_icon": "shopify:\/\/shop_images\/Vector_3.svg"
+          }
+        },
+        "button_HMBQ9P": {
+          "type": "button",
+          "settings": {
+            "social_button_label": "Button label",
+            "social_button_link": "https:\/\/www.facebook.com\/people\/Shonen-Supplements\/61554248127730\/",
+            "social_icon": "shopify:\/\/shop_images\/Vector_2.svg"
+          }
+        },
+        "button_AgyziE": {
+          "type": "button",
+          "settings": {
+            "social_button_label": "Button label",
+            "social_button_link": "https:\/\/discord.com\/invite\/gUQNRHxJMT",
+            "social_icon": "shopify:\/\/shop_images\/Vector_4.svg"
+          }
+        },
+        "button_nTpXga": {
+          "type": "button",
+          "settings": {
+            "social_button_label": "Button label",
+            "social_button_link": "https:\/\/www.tiktok.com\/@shonensupplements",
+            "social_icon": "shopify:\/\/shop_images\/Vector_5.svg"
+          }
+        }
+      },
+      "block_order": [
+        "button_WqPKnm",
+        "button_HMBQ9P",
+        "button_AgyziE",
+        "button_nTpXga"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Join us at our next event",
+        "heading_font": "itc_conduit_n9",
+        "social_heading": "Stay in the loop:",
+        "social_font": "itc_conduit_n9",
+        "paragraph": "<p>Wanted pre-workout combines a standout pump, energy & focus formula with a flavor fusion adventure to allow you to channel your inner anime protagonist while taking your taste buds on an unforgettable flavor experience.<\/p>",
+        "button_label": "Get the pre-workout",
+        "button_link": "shopify:\/\/products\/wanted-pre-workout-supplement",
+        "video": "shopify:\/\/files\/videos\/Pop-up Shop Reel.mp4",
+        "enable_video_looping": false,
+        "cover_image": "shopify:\/\/shop_images\/Shonen_Supps_Video_Thumbnail.png",
+        "image_1": "shopify:\/\/shop_images\/27.jpg",
+        "image_2": "shopify:\/\/shop_images\/15_a6e3e714-b527-4766-ad8c-2f74741e0dfe.jpg",
+        "image_3": "shopify:\/\/shop_images\/13_5988e3f3-94d4-4825-851e-6be8523519fd.jpg",
+        "image_4": "shopify:\/\/shop_images\/19.jpg",
+        "image_5": "shopify:\/\/shop_images\/25.jpg",
+        "image_6": "shopify:\/\/shop_images\/5_635bbe4c-6792-4424-b065-b12fd574e27f.jpg"
+      }
     }
   },
   "order": [
     "slideshow_WBhzfD",
-    "collection_list_y8cyLP"
+    "collection_list_y8cyLP",
+    "ss_barbell_brigade_dabRrc"
   ]
 }
