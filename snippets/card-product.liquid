@@ -56,6 +56,7 @@
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
             <div class="media media--transparent media--hover-effect">
               {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+              {% comment %} change divisible from 4 to 1 to improve resolution {% endcomment %}
               <img
                 srcset="
                   {%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
@@ -66,8 +67,9 @@
                   {%- if card_product.featured_media.width >= 1066 -%}{{ card_product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
                   {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
                 "
-                src="{{ card_product.featured_media | image_url: width: 533 }}"
-                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                src="{{ card_product.featured_media | image_url: width: 533 }}" 
+                
+                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 1 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                 alt="{{ card_product.featured_media.alt | escape }}"
                 class="motion-reduce"
                 {% unless lazy_load == false %}
