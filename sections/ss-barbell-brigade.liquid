@@ -1,0 +1,367 @@
+{{ 'ss-main-page.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'video-player.js' | asset_url }}" defer="defer"></script>
+
+<style>
+    .display-none {
+        display: none;
+      }
+    .brigade-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .brigade-title {
+      font-size: 5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      width: 45rem;
+      margin: 0px 0px;
+      margin-bottom: 2rem;
+    }
+    .brigade-socials-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .brigade-button {
+      font-size: 1.5rem;
+      padding: 1rem 6rem;
+      border: 1px solid black;
+      background-color: black;
+      color: white;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      {% comment %} min-width: 300px; {% endcomment %}
+    }
+    .brigade-button:hover {
+      background-color: #E7C289;
+      color: black;
+    }
+    .social-section {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 2rem;
+    }
+    .left-section {
+      width: 50%;
+    }
+    .right-section {
+      width: 50%;
+    }
+    .right-section p{
+      margin: 0px 0px;
+      margin-bottom: 2rem;
+    }
+    .brigade-collage {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    position: relative;
+    }
+
+    .brigade-image-collage {
+      display: grid;
+      flex-direction: column;
+        gap: 2rem;
+    }
+    .image-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .brigade-reel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .fixed-size-video {
+        display: flex;
+    }
+
+    .sticky-section{
+        position: sticky;
+        top: 2rem;
+        {% comment %} bottom: 0rem; {% endcomment %}
+        z-index: 1;
+        {% comment %} margin-bottom: -8px; {% endcomment %}
+    }
+
+    .brigade-reel .fixed-size-video {
+        width: 100%; /* Ensure the video takes the full width of the container */
+        height: auto; /* Maintain aspect ratio */
+      }
+  .brigade-image-collage img {
+      width: 100%;
+        object-fit: cover;
+        {% comment %} margin-bottom: -50px; {% endcomment %}
+    }
+    .play-button {
+        position: absolute; /* Position the play button absolutely within the container */
+        top: 50%; /* Center vertically */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+    }
+    video {
+        width: 100%;
+    }
+    .overlay img{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        z-index: 2;
+      }
+    .overlay:hover,.play-button:hover {
+        cursor: pointer;
+    }
+
+    @media (max-width: 990px) {
+      .brigade-flex {
+        flex-direction: column;
+        align-items: center;
+      }
+      .left-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .right-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .brigade-title {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0rem;
+      }
+      .right-section p {
+          text-align: center;
+      }
+      .brigade-collage {
+        margin-top: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .brigade-collage > :nth-of-type(3),
+    .brigade-collage > :nth-of-type(4) {
+      display: none;
+    }
+</style>
+
+<section class="ss-section">
+  <div class="brigade-flex">
+    <div class="left-section">
+      <h2 class="brigade-title">{{ section.settings.heading }}</h2>
+      <div class="social-section">
+        <h3 class="brigade-socials-title">{{ section.settings.social_heading }}</h3>
+
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'button' -%}
+              <div
+                class="{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <a
+                  {% if block.settings.social_button_link == blank %}
+                    role="link" aria-disabled="true"
+                  {% else %}
+                    href="{{ block.settings.social_button_link }}"
+                    target="_blank"
+                  {% endif %}
+                  class="social-button"
+                >
+                  {{ block.settings.social_icon | image_url: height: 20 | image_tag }}
+                </a>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="right-section">
+      <p>{{ section.settings.paragraph }}</p>
+      <a href="{{ section.settings.button_link }}" class="brigade-button">{{ section.settings.button_label }}</a>
+    </div>
+  </div>
+  <div class="brigade-collage">
+    <div class="brigade-reel">
+      <div class="sticky-section">
+        <div class="image-container">
+          <div class="overlay">
+            {%- if section.settings.cover_image != blank -%}
+              <img
+                src="{{ section.settings.cover_image | image_url: width: 360 }}"
+                height="auto"
+                alt="Video Cover Image"
+              >
+            {%- else -%}
+              {{ 'hero-apparel-3' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+            {%- endif -%}
+          </div>
+        </div>
+        <button
+          id="Deferred-Poster-Modal-{{ video_id }}"
+          class="play-button"
+          type="button"
+          aria-label="{{ alt }}"
+        >
+          <span class="deferred-media__poster-button motion-reduce">
+            {%- render 'icon-play' -%}
+          </span>
+        </button>
+        <div class="fixed-size-video">
+          {{
+            section.settings.video
+            | video_tag:
+              image_size: '360x',
+              autoplay: false,
+              loop: section.settings.enable_video_looping,
+              controls: true,
+              muted: false,
+              id: 'brigade-video'
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="brigade-image-collage">
+      <img src="{{ section.settings.image_1 | image_url: width: 360 }}" height="auto" alt="Barbell Brigade">
+      <img src="{{ section.settings.image_4 | image_url: width: 360 }}" height="auto" alt="Barbell Brigade">
+    </div>
+    <div class="brigade-image-collage">
+      <img src="{{ section.settings.image_2 | image_url: width: 360 }}" height="auto" alt="Barbell Brigade">
+      <img src="{{ section.settings.image_5 | image_url: width: 360 }}" height="auto" alt="Barbell Brigade">
+    </div>
+    <div class="brigade-image-collage">
+      <img src="{{ section.settings.image_3 | image_url: width: 360 }}" height="auto" alt="Barbell Brigade">
+      <img src="{{ section.settings.image_6 | image_url: width: 360 }}" height="auto" alt="Barbell Brigade">
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS Barbell Brigade",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Join us at our next event",
+      "label": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "social_heading",
+      "default": "Stay in the loop:",
+      "label": "Social Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "default": "<p>Wanted pre-workout combines a standout pump, energy & focus formula with a flavor fusion adventure to allow you to channel your inner anime protagonist while taking your taste buds on an unforgettable flavor experience.</p>",
+      "label": "Paragraph"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Button label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Shopify hosted video"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Video cover image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Middle image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Right image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Bottom Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Bottom Middle image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "Bottom Right image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Social Media Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "social_button_label",
+          "default": "Button label",
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label",
+          "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info"
+        },
+        {
+          "type": "url",
+          "id": "social_button_link",
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_link_1.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "social_icon",
+          "label": "Social Icon"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "SS Barbell Brigade"
+    }
+  ]
+}
+{% endschema %}
